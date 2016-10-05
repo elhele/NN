@@ -1,0 +1,13 @@
+Q: Name the main capabilities of a neural network.
+
+A: Adaptivity, input-output mapping, evidental response, fault tolerance, contextual knowledge representation, implementation using very large scale integration, uniformity of analysis and design.
+
+
+Q: What are synapses?
+
+A: Synapses are basic structural and functional units of interaction between the neurons.
+
+
+Q: Name 3 network architectures.
+
+A: Single-layer feedforward, multilayer feedforward, reccurent.
