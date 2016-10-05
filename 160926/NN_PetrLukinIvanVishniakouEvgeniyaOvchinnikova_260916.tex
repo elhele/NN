@@ -8,6 +8,7 @@
 \usepackage{amssymb}
 \setlength{\heavyrulewidth}{1.5pt}
 \setlength{\abovetopsep}{4pt}
+\setlength{\parindent}{0pt}
 \graphicspath{{.}}
 
 \usepackage[margin=1in]{geometry}
@@ -40,6 +41,18 @@ Neural network (NN) is a parallel distributed system consisted of computing cell
   \includegraphics[width=1.0\textwidth]{NN}
 \end{figure}
 
+\section{Exercises}
 
+\subsection{Exercise 1.1}
+
+$\phi(v) = \frac{1}{1 + exp(-av)}$\\
+
+Show that $\frac{d\phi(v)}{dv} = a\phi(v)[1 - \phi(v)]$. What is the value of this derivative at the origin?\\
+
+Solution:\\
+
+$\frac{d\phi(v)}{dv} = \frac{d((1 + exp(-av))^{-1})}{dv} = -\frac{-a\cdot exp(-av)}{(1 + exp(-av))^2} = \frac{a(exp(-av) + 1 -1)}{(1 + exp(-av))^2} = \frac{a}{(1 + exp(-av))} (1 - \frac{1}{(1 + exp(-av))}) = a\phi(v)[1 - \phi(v)]$\\
+
+$\frac{a}{(1 + exp(-a\cdot 0))} (1 - \frac{1}{(1 + exp(-a\cdot 0))}) = \frac{a}{(1 + 1)} (1 - \frac{1}{(1 + 1)}) = \frac{1}{4}$
 
 \end{document}
