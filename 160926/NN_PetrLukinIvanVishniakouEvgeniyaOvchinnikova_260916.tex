@@ -55,4 +55,23 @@ $\frac{d\phi(v)}{dv} = \frac{d((1 + exp(-av))^{-1})}{dv} = -\frac{-a\cdot exp(-a
 
 $\frac{a}{(1 + exp(-a\cdot 0))} (1 - \frac{1}{(1 + exp(-a\cdot 0))}) = \frac{a}{(1 + 1)} (1 - \frac{1}{(1 + 1)}) = \frac{1}{4}$
 
+
+\subsection{Exercise 1.21}
+Let x be an input vector and $s(\alpha, x)$ be a transformation operator acting on x and depending on some parameter $\alpha$. The operator $s(\alpha, x)$ satisfies:
+\begin{itemize}
+\item s(0, x) = x
+\item $s(\alpha, x)$ is differential with respect to $\alpha$
+\end{itemize}
+How would you compute the tangent vector when $\alpha$ is small? The tangent vector is locally invariant with respect to rotation of the original image, why?\\
+
+Solution:\\
+
+Since $\alpha$ is small, we can use a Taylor expansion: $s(\alpha, x) = s(0, x) + \alpha \frac{\delta s(\alpha, x)}{\delta \alpha} + O(\alpha^2) \approx x + \alpha \frac{\delta s(\alpha, x)}{\delta \alpha}$\\
+
+According, to the assignment, the tangent vector (V) is defined by the partial derivative $\frac{\delta s(\alpha, x)}{\delta \alpha}$, therefore:\\
+
+$s(\alpha, x) =  x + \alpha V$\\
+
+$V = \frac{s(\alpha, x) -  x}{\alpha}$\\
+
 \end{document}
