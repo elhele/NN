@@ -1,0 +1,13 @@
+Q: Name five basic learning rules.
+
+A: Error-correction learning, memory-based learning, Hebbian learning, competetive learning, Boltzmann learning. 
+
+
+Q: Name some examples of the learning tasks.
+
+A: pattern association and recognition, function approximation, control, filtering, beamforming.
+
+
+Q: Name two ways for pattern recognitions. Which learning paradigms are used?
+
+A: One of the ways is using a machine split - unsupervised learning is used for feature extraction and supervised - for classification. Another way uses purely supervised paradigm and feature extraction is being done in hidden layers.
