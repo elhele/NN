@@ -6,13 +6,16 @@
 \usepackage{graphicx}
 \usepackage{hyperref}
 \usepackage{amssymb}
+\usepackage{listings}
+\usepackage{color} %red, green, blue, yellow, cyan, magenta, black, white
 \setlength{\heavyrulewidth}{1.5pt}
 \setlength{\abovetopsep}{4pt}
 \setlength{\parindent}{0pt}
 \graphicspath{{.}}
 
 \usepackage[margin=1in]{geometry}
-
+\definecolor{mygreen}{RGB}{28,172,0} % color values Red, Green, Blue
+\definecolor{mylilas}{RGB}{170,55,241}
 % Must be after geometry
 \usepackage{fancyhdr}
 \pagestyle{fancy}
@@ -30,6 +33,26 @@
 
 \begin{document}
 
+%-------------------------------------------------------------------------------
+\lstset{language=Matlab,%
+    %basicstyle=\color{red},
+    breaklines=true,%
+    morekeywords={matlab2tikz},
+    keywordstyle=\color{blue},%
+    morekeywords=[2]{1}, keywordstyle=[2]{\color{black}},
+    identifierstyle=\color{black},%
+    stringstyle=\color{mylilas},
+    commentstyle=\color{mygreen},%
+    showstringspaces=false,%without this there will be a symbol in the places where there is a space
+    numbers=left,%
+    numberstyle={\tiny \color{black}},% size of the numbers
+    numbersep=9pt, % this defines how far the numbers are from the text
+    emph=[1]{break},emphstyle=[1]\color{red}, %some words to emphasise
+    %emph=[2]{word1,word2}, emphstyle=[2]{style},
+}
+
+%-------------------------------------------------------------------------------
+
 \maketitle
 
 \section{Mind map}
@@ -40,9 +63,58 @@
   \includegraphics[width=1.0\textwidth]{mindmap}
 \end{figure}
 
+\newpage
 \section{Exercises}
 
 \subsection{Exercise 1.13}
+
+Do the problem 1.13 (Network architecture) from the previous week’s assignment. This time use MATLAB or Python’s (sympy) symbolic toolbox. Finally assume the network presented in fig P1.13 is a binary-classifier, please depict how the input space (R2) is classified on a 2D graph using different colors.
+
+\medskip
+
+This exercise was solved in matlab. The input-output mapping can be made for a network with structure $2-2-..-2-1$ with different weights and squashing functions: linear, sigmoid. Output layer also can have heaviside squashing function.
+
+\medskip
+
+The network itself has a following structure:
+\medskip
+
+
+\includegraphics[scale=0.7]{113.png}
+
+
+\medskip
+Here is the code of the hidden layer output implementation.
+\medskip
+
+\lstinputlisting{hiddenlayer.m}
+
+The output layer.
+
+
+\lstinputlisting{outputlayer.m}
+
+Mapping calculation and plotting.
+
+
+\lstinputlisting{ex113.m}
+
+Plots of the input-output mappings.
+
+Sigmoid squashing function:
+\begin{center}
+\includegraphics[scale=0.8]{sigmoid.png}
+\end{center}
+
+Linear squashing function:
+\begin{center}
+\includegraphics[scale=0.8]{linear.png}
+\end{center}
+
+Binary classifier:
+\begin{center}
+\includegraphics[scale=0.8]{classification.png}
+\end{center}
 
 \subsection{Exercise 4}
 
