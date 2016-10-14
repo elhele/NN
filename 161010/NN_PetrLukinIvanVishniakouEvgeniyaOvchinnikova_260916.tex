@@ -186,4 +186,100 @@ $v_i^{new} = v_i^{old} + \eta_v x_2u_i(d - (u_1(x_1w_1 + x_2v_1) + u_2(x_1w_2 + 
 $u_i^{new} = u_i^{old} + \eta_u (x_1w_i + x_2v_i)(d - (u_1(x_1w_1 + x_2v_1) + u_2(x_1w_2 + x_2v_2))$\\
 
 
+\subsection{New Classification Example (now with bias)}
+
+The original data was linearly separable without bias:
+
+\begin{figure}[h]
+  \centering
+  \caption{Original data and the decision line\label{fig:bias1}}
+  \includegraphics[width=0.6\textwidth]{bias1}
+\end{figure}
+
+To have the example actually use the bias the data can be modified: offset by (1,0). In this case the decision line would have to not go through the origin but the classes would remain linearly separable.
+To validate the provided percepton learning algorithm the bias is added to the inputs and they are introduced to the perceptron.
+
+
+\begin{table}[htb]
+\centering
+\label{bias_data_1}
+\begin{tabular}{|c|c|}
+\hline
+\textbf{C1} & \textbf{C2} 	\\ \hline
+	(2, 1)	&   (0, 1)		\\ \hline
+	(2, -1)	&	(0, -1)   	\\ \hline
+    (1, -1)	&   (1, 	1)		\\ \hline
+\end{tabular}
+\end{table}
+
+
+
+\begin{table}[htb]
+\centering
+\label{my-label}
+\caption{Epoch 1}
+\begin{tabular}{|c|c|c|c|c|}
+\hline
+\textbf{Adjusted pattern} & \textbf{Weight applied} & \textbf{w(n) x(n)} & \textbf{Update?} & \textbf{New weight} \\ \hline
+(1, 2, 1) & (1, 0, 0) & 1 &  No &  (1, 0, 0)  \\ \hline
+(1, 2, -1)& (1, 0, 0) & 1 &  No & (1, 0, 0) \\ \hline
+(1, 1, -1)& (1, 0, 0) & 1 & No & (1, 0, 0) \\ \hline
+(-1, 0, -1)& (1, 0, 0) & -1 & Yes & (0, 0, -1) \\ \hline
+(-1, 0, 1) & (0, 0, -1)  & -1 & Yes & (-1, 0, 0) \\ \hline
+(-1, -1, -1)&(-1, 0, 0) &  1  & No & (-1, 0, 0) \\ \hline
+\end{tabular}
+\end{table}
+
+\begin{table}[htb]
+\centering
+\label{my-label}
+\caption{Epoch 2}
+\begin{tabular}{|c|c|c|c|c|}
+\hline
+\textbf{Adjusted pattern} & \textbf{Weight applied} & \textbf{w(n) x(n)} & \textbf{Update?} & \textbf{New weight} \\ \hline
+(1, 2, 1) & (-1, 0, 0) & -1 &  Yes &  (0, 2, 1)  \\ \hline
+(1, 2, -1)& (0, 2, 1) & 3 &  No & (0, 2, 1) \\ \hline
+(1, 1, -1)& (0, 2, 1) & 1 & No & (0, 2, 1) \\ \hline
+(-1, 0, -1)& (0, 2, 1) & -1 & Yes & (-1, 2, 0) \\ \hline
+(-1, 0, 1) & (-1, 2, 0)  & 1 & No & (-1, 2, 0) \\ \hline
+(-1, -1, -1)&(-1, 2, 0) &  -1  & Yes & (-2, 1, -1) \\ \hline
+\end{tabular}
+\end{table}
+
+\begin{table}[htb]
+\centering
+\label{my-label}
+\caption{Epoch 3}
+\begin{tabular}{|c|c|c|c|c|}
+\hline
+\textbf{Adjusted pattern} & \textbf{Weight applied} & \textbf{w(n) x(n)} & \textbf{Update?} & \textbf{New weight} \\ \hline
+(1, 2, 1) & (-2, 1, -1) & -1 &  Yes &  (-1, 3, 0)  \\ \hline
+(1, 2, -1)& (-1, 3, 0) & 5 &  No & (-1, 3, 0) \\ \hline
+(1, 1, -1)& (-1, 3, 0) & 2 & No & (-1, 3, 0) \\ \hline
+(-1, 0, -1)& (-1, 3, 0) & 1 & No & (-1, 3, 0) \\ \hline
+(-1, 0, 1) & (-1, 3, 0)  & 1 & No & (-1, 3, 0) \\ \hline
+(-1, -1, -1)&(-1, 3, 0) &  -2  & Yes & (-2, 2, -1) \\ \hline
+\end{tabular}
+\end{table}
+
+
+\begin{table}[htb]
+\centering
+\label{my-label}
+\caption{Epoch 4}
+\begin{tabular}{|c|c|c|c|c|}
+\hline
+\textbf{Adjusted pattern} & \textbf{Weight applied} & \textbf{w(n) x(n)} & \textbf{Update?} & \textbf{New weight} \\ \hline
+(1, 2, 1) & (-2, 2, -1) & 1 & No &  (-2, 2, -1)  \\ \hline
+(1, 2, -1)& (-2, 2, -1) & 3 &  No & (-2, 2, -1) \\ \hline
+(1, 1, -1)& (-2, 2, -1) & 1 & No & (-2, 2, -1) \\ \hline
+(-1, 0, -1)& (-2, 2, -1) & 3 & No & (-2, 2, -1) \\ \hline
+(-1, 0, 1) & (-2, 2, -1)  & 1 & No & (-2, 2, -1) \\ \hline
+(-1, -1, -1)&(-2, 2, -1) &  1  & No & (-2, 2, -1) \\ \hline
+\end{tabular}
+\end{table}
+
+If 4 epoch the algorithm converges to the line $2x_1-x_2=2$, the classes are separated, bias is nonzero.
+The learning iterations on the adjusted patterns with added biases would be as shown in tables 1-4.
+
 \end{document}
