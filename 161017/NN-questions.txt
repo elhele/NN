@@ -1,13 +1,13 @@
-Q: 
+Q: What is Boltzmann learning rule?
 
-A: 
-
-
-Q: 
-
-A: 
+A: The Boltzmann learning rule is a stochastic learning algorithm derived from ideas rooted in statistical mechanisms.
 
 
-Q: 
+Q: Name the characteristics of associative memory.
 
-A: 
+A: It is distributed, stimulus and response patterns consist of data vectors, information is stored in memory by setting up a spatial pattern of neural activities across a large number of neurons, information in stimulus determines its storage location and address of retrieval, high noise resistance, possibility of interaction between patterns in memory.
+
+
+Q: In which learning form the process of learning never stops with learning going on while signal processing is being performed by a system?
+
+A: In learning-on-the-fly or continious learning.
