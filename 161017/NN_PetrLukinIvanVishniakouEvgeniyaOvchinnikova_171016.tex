@@ -84,7 +84,7 @@ $c_{kj} = $ weight of lateral connection from neuron k to neuron j,\\
 $y_j = \phi(v_j)$.\\
 
 
- 
+
 \begin{figure}[h]
   \centering
   \caption{Competitive neural network with feedforward connections.\label{fig:competiotionNN}}
@@ -98,5 +98,24 @@ Solution:\\
 $$y_j = \phi(\sum_{i=1}^{4} w_{ji}x_i  + \sum_{k=1, k \neq j}^{3} c_{kj}y_k) = \phi(\sum_{i=1}^{4} w_{ji}x_i + \sum_{k=1, k \neq j}^{3} c_{kj}\phi(v_k))$$, where $k_1, k_2$ are numbers from 1 to 3 those are not equal j.\\
 
 Neuron j is a winning neuron if $v_j > v_k$ for all $k \neq j$.
+
+\subsection{Exercise 4}
+
+A simple network is given below (from lecture slides). You have to update the weights once using Boltzmann learning for this network. Please do calculations by hand or by using MATLAB or Python.  Use random numbers to initialise the weights. For training use a training set as $[(0, 1), (1, 0)]$ or any training set of your choice.
+
+\begin{figure}[h]
+  \centering
+  \caption{NN from ex. 4.\label{fig:4NN}}
+  \includegraphics[width=0.4\textwidth]{4}
+\end{figure}
+
+Because this NN is recurrent and has 5 neurons, weight matrix has size 5x5 with zeros on a main diagonal. The training sample is $s=[1 ,-1,-1,-1,-1]$. Initial weight matrix was filled with $uniform[0,1]$ numbers.
+
+The weight update was done in matlab:
+
+\medskip
+
+\lstinputlisting{Boltzmann.m}
+
 
 \end{document}
