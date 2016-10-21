@@ -99,6 +99,23 @@ $$y_j = \phi(\sum_{i=1}^{4} w_{ji}x_i  + \sum_{k=1, k \neq j}^{3} c_{kj}y_k) = \
 
 Neuron j is a winning neuron if $v_j > v_k$ for all $k \neq j$.
 
+\subsection{Exercise 2.21}
+
+Fill in the details of the level of signal processing next to that described in figure:
+
+\begin{center}
+  \includegraphics[scale=1]{21}
+\end{center}
+
+\begin{itemize}
+\item In this diagram, predictive model block contains and adaptive filter that receives delayed signal and tries to predict current one.
+\item Adaptive filter in the model works as linear combiner and can be trained with LMS method.
+\item Comparator compares predicted value with plant output to produce error.
+\item This error can be used to update weight matrix in model. 
+\item The model can be used to continuously predict new values and adapt.
+\end{itemize}
+
+
 \subsection{Exercise 4}
 
 A simple network is given below (from lecture slides). You have to update the weights once using Boltzmann learning for this network. Please do calculations by hand or by using MATLAB or Python.  Use random numbers to initialise the weights. For training use a training set as $[(0, 1), (1, 0)]$ or any training set of your choice.
