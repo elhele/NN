@@ -1,11 +1,11 @@
-Q: 
+Q: Name the components of supervised learning.
 
-A: 
+A: Environment, teacher, learning machine (algorithm).
 
-Q: 
+Q: What is supervised learning problem?
 
-A: 
+A: It is a problem of selecting a certain function F(x,w) that can approximate an expected response d in an optimum fashion. The optimum is defined in a certain statistical sense.
 
-Q: 
+Q: What is a VC dimension?
 
-A: 
+A: It is a measure of the capacity of expressive power of the family of classification functions realized by the learning machine.
