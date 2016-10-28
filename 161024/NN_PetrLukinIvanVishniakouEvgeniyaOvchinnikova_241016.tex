@@ -12,7 +12,7 @@
 \setlength{\abovetopsep}{4pt}
 \setlength{\parindent}{0pt}
 \graphicspath{{.}}
-
+\usepackage{float}
 \usepackage[margin=1in]{geometry}
 \definecolor{mygreen}{RGB}{28,172,0} % color values Red, Green, Blue
 \definecolor{mylilas}{RGB}{170,55,241}
@@ -139,9 +139,40 @@ $$\hat{\epsilon} = \frac{1}{m}\sum_{j=1}^{m} Z_i$$
 
 Probability that the version space with respect to $H_r$ and S (a sequence of training examples $m\geqslant 1$ ) is not $\epsilon$-exhausted (with respect to c) is less than $|H| e^{-\epsilon m}$, where  $\epsilon$ is an error. $0<\epsilon<0.5$, probability $0<\delta<0.5$.\\
 
-$\epsilon \geqslant \frac{1}{m}(lnH + ln\frac{1}{\delta})$, so:
+$\epsilon \leqslant \frac{1}{m}(lnH + ln\frac{1}{\delta})$, so:
 
-$\epsilon \geqslant \frac{1}{m}(ln4 + ln\frac{1}{(1-0.95)})$
+$\epsilon \leqslant \frac{1}{m}(ln4 + ln\frac{1}{(1-0.95)})$\\
+
+
+The rectangle learner is implemented simply by taking the $x$ and $y$ bounds of the given sample set. This always returns the most specific hypothesis:
+
+\lstset{language=Python}   
+\begin{lstlisting}[frame=single]
+def learn_rect(samples):
+    a = np.min([s[0] for s in samples])
+    b = np.max([s[0] for s in samples])
+    c = np.min([s[1] for s in samples])
+    d = np.max([s[1] for s in samples])
+    return a,b,c,d
+\end{lstlisting}
+
+The concept is a rectangle $(0,0,100,100)$ and the samples are drawn form it. The learnt hypothesis can be plotted as improving and covering more and more of the concept space as the number of introduced samples increases:
+\clearpage
+
+\begin{figure}[H]
+  \centering
+  \caption{Improving hypothesis rectangles covering the concept space.\label{fig:TriPoints}}
+  \includegraphics[width=0.8\textwidth]{rect_1}
+\end{figure}
+
+
+The resulting error can be plotted as well as the predicted shows their good correspondance:
+
+\begin{figure}[H]
+  \centering
+  \caption{Improving hypothesis rectangles covering the concept space.\label{fig:TriPoints}}
+  \includegraphics[width=1.0\textwidth]{predict_vs_practical}
+\end{figure}
 
 
 
