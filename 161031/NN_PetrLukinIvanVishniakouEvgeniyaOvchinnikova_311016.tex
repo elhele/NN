@@ -6,7 +6,7 @@
 \usepackage{graphicx}
 \usepackage{hyperref}
 \usepackage{amssymb}
-\usepackage{mathtools}
+%\usepackage{mathtools}
 \usepackage{listings}
 \usepackage{amsmath}
 \usepackage{color} %red, green, blue, yellow, cyan, magenta, black, white
@@ -68,7 +68,7 @@
 
 \section{Exercises}
 
-\subsection*{Exercise 3.1}
+\subsection{Exercise 3.1}
 Explore the method of steepest descent involving a single weight w by considering the following cost function:\\
 
 $\varepsilon(w) = \frac{1}{2} \sigma^2 - r_{xd}w + \frac{1}{2}r_x w^2$,\\
@@ -106,13 +106,13 @@ To plot it we need to choose some values for the constants:  $\sigma^2 = 2, r_{x
 
 To plot $\varepsilon(w)$ and paths with different $\eta$'s (0.1, 0.01, 0.45) we used the following python code:
 
-\lstset{language=Python}   
+\lstset{language=Python}
 \begin{lstlisting}[frame=single]
 import numpy as np
 import matplotlib.pyplot as plt
 from numpy import linalg as LA
 
-%matplotlib inline 
+%matplotlib inline
 
 #constants:
 
@@ -149,7 +149,7 @@ def steepest_descent(eta):
         err = w_upd - w
         w = w_upd
     print "minimum weight"
-    print w   
+    print w
     print "number of iterations"
     print iterations
 
@@ -158,7 +158,7 @@ def steepest_descent(eta):
     plt.xlabel('weights')
     plt.plot(w, 0.5*sigma**2 - r_xd*w + 0.5*r_x*w**2, 'go', weights, Es, 'bd', weights, Es, 'k')
     plt.show()
-    
+
 steepest_descent(eta)
 steepest_descent(eta_small)
 steepest_descent(eta_large)
@@ -202,18 +202,18 @@ So, small $\eta$s give a better result, but they might require too many iteratio
 
 \cleardoublepage	
 
-\subsection*{Exercise 3.4}
+\subsection{Exercise 3.4}
 The correlation matrix $R_x$ of the input vector $x(n)$ in the LMS algorithm is defined by
 
 \[ R_x = \left( \begin{array}{ccc}
 1 & 0.5 \\
-0.5  & 1 \end{array} \right)\] 
+0.5  & 1 \end{array} \right)\]
 
 Define the range of values for the learning-rate parameter $\eta$ of the LMS algorithm for it to be convergent in the mean square.\\
 
 Solution:\\
 
-The algorithm converges iff:\\
+The algorithm converges if:\\
 
 $0 < \eta < \frac{2}{\lambda_{max}}$,\\
 where $\lambda_{max}$ is the larges eigenvalue of the correlation matrix $R_x$.\\
@@ -225,5 +225,96 @@ so $\lambda_1 = 1.5$ and $\lambda_2 = 0.5$. Therefore, $\lambda_{max} = 1.5$ and
 
 $0 < \eta < \frac{2}{1.5} \Rightarrow 0 < \eta < 1.3333$
 
+\subsection{Exercise 3.8}
+The ensemble-averaged counterpart to the sum of error squares viewed as a cost function is the mean-square value
+of the error signal:
 
+\begin{equation*}
+J(w) = \frac{1}{2}E[e^2(n)] = \frac{1}{2}E[(d(n) - \mathbf{x}^T(n)\mathbf{w})^2]
+\end{equation*}
+
+Assuming that the input vector $x(n)$ and desired response $d(n)$ are drawn from a stationary environment, show that:
+
+
+\subsection*{Assignment a)}
+Assuming that the input vector $x(n)$ and desired response $d(n)$ are drawn from a stationary environment, show that
+    \begin{equation*}
+        J(w) = \frac{1}{2}\sigma^2_d\mathbf{r_x}_d^T\mathbf{w}+
+        \frac{1}{2}\mathbf{w}^T\mathbf{R_x}\mathbf{w}
+    \end{equation*}
+    where
+
+    \begin{equation*}
+        \sigma_d^2 = E[d^2(n)]
+    \end{equation*}
+
+
+    \begin{equation*}
+        \mathbf{r_x}_d = E[\mathbf{x}(n)d(n)]
+    \end{equation*}
+
+    \begin{equation*}
+        \mathbf{R_x} = E[\mathbf{x}(n)\mathbf{x}^T(n)]
+    \end{equation*}
+\subsection*{Solution a)}
+
+
+$$
+\begin{array}{l}
+J(w) = \frac{1}{2}E[(d(n) - \mathbf{x}^T(n)\mathbf{w})^2] = \frac{1}{2}E[d(n)^2 - 2 d(n)\mathbf{x}^T(n)\mathbf{w}+\mathbf{x}^T(n)\mathbf{w}\mathbf{x}^T(n)\mathbf{w}] = \\
+\\
+=\frac{1}{2}(E[d(n)^2] - 2E[\mathbf{x}(n)d(n)]\mathbf{w}+E[\mathbf{w}^T\mathbf{x}(n)\mathbf{x}(n)^T\mathbf{w}]) =\\
+\\
+=\frac{1}{2}\sigma_d^2 - \mathbf{r_x}_d^T\mathbf{w} + \mathbf{w}^T E[\mathbf{x}(n)\mathbf{x}(n)^T] \mathbf{w} = \frac{1}{2}\sigma_d^2 - \mathbf{r_x}_d^T\mathbf{w} +\frac{1}{2}\mathbf{w}^T \mathbf{R_x} \mathbf{w} = J(w).
+\end{array}
+$$
+
+\subsection*{Assignment b)}
+For this cost function, show that the gradient vector and Hessian matrix of $J(w)$ are as follows, respectively:
+$$
+\begin{array}{l}
+   g = - \mathbf{r_x}_d +\mathbf{R_x}\mathbf{w}\\
+   \mathbf{H} = \mathbf{R_x}
+\end{array}
+$$
+
+\subsection*{Solution b)}
+Gradient vector:
+\begin{equation*}
+  \mathbf{g}= \frac{\partial J}{\partial w} = \frac{\partial (\frac{1}{2}\sigma_d^2 - \mathbf{r_x}_d^T\mathbf{w} +\frac{1}{2}\mathbf{w}^T \mathbf{R_x} \mathbf{w})}{\partial w} = 0-\mathbf{r_x}_d+\mathbf{R_x} \mathbf{w} =-\mathbf{r_x}_d+\mathbf{R_x} \mathbf{w} .
+\end{equation*}
+Hessian matrix:
+
+\begin{equation*}
+  \mathbf{H}= \frac{\partial \mathbf{g}}{\partial w} = \frac{\partial (-\mathbf{r_x}_d^T+\mathbf{R_x} \mathbf{w})}{\partial w} = \mathbf{R_x}.
+\end{equation*}
+
+\subsection*{Assignment c)}
+
+In the LMS/Newton algorithm, the gradient vector $g$ is replaced by its instantaneous value (Widrow and
+Strearns,1985).Show that this algorithm, incorporating a learning-rate parameter $\eta$, is described by
+\begin{equation*}
+  \mathbf{\hat{w}}(n+1)= \mathbf{\hat{w}}(n)+\eta \mathbf{R_x}^{-1} \mathbf{x}(n)(d(n) - \mathbf{x}^T(n) \mathbf{w}(n) ).
+\end{equation*}
+
+The inverse of the correlation matrix $\mathbf{R_x}$, assumed to be positive definite, is calculated ahead of time.
+\subsection*{Solution c)}
+In the Newton's method we have the following rule:
+\begin{equation*}
+  w_{k+1} = w_{k} - \eta \mathbf{R}^{-1}\mathbf{g},
+\end{equation*}
+replace $g$ with instantaneous values by omitting Expectations:
+\begin{equation*}
+  \hat{g} = - \mathbf{r_x}_d +\mathbf{R_x}\mathbf{w} = -\mathbf{x}(n)d(n) + \mathbf{x}(n)\mathbf{x}^T(n)\mathbf{w}(n).
+\end{equation*}
+So, LMS/Newton algorithm will be:
+$$
+\begin{array}{l}
+  \hat{w}_{k+1} = \hat{w}_{k} - \eta \mathbf{R}^{-1}\hat{g} =\\
+  \\
+  =\hat{w}_{k} - \eta \mathbf{R}^{-1}(-\mathbf{x}(n)d(n) + \mathbf{x}(n)\mathbf{x}^T(n)\mathbf{w}(n)) =\\
+  \\
+  =\mathbf{\hat{w}}(n)+\eta \mathbf{R_x}^{-1} \mathbf{x}(n)(d(n) - \mathbf{x}^T(n) \mathbf{w}(n) ).
+\end{array}
+$$
 \end{document}
