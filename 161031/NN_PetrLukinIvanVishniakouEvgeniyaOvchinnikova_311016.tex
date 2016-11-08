@@ -202,6 +202,8 @@ So, small $\eta$s give a better result, but they might require too many iteratio
 
 \cleardoublepage	
 
+
+
 \subsection{Exercise 3.2}
 
 Consider the cost function\\
@@ -222,6 +224,24 @@ where $\sigma^2$ is a constant and
 (b) Use the method of steepest descent to compute $\boldsymbol{w}*$ for the following two values of learning-rate parameter: $\eta = 0.3$, $\eta = 1.0$. For each case, plot the trajectory by evolution of the weight vector $\boldsymbol{w}(n)$ in the W-plane.\\
 
 Solution:\\
+
+
+Countour plots for error function and descent trajectory for different $\eta$.
+
+\includegraphics[scale = 1]{d1.png}
+
+\includegraphics[scale = 1]{d2.png}
+
+\smallskip
+
+Optimal weight vector: $w* = [ 1.4779,-0.8332]$.
+
+
+\newpage
+
+Matlab code for steepest descent:
+\medskip
+\lstinputlisting{Ex32.m}
 
 
 \subsection{Exercise 3.4}
@@ -248,22 +268,6 @@ so $\lambda_1 = 1.5$ and $\lambda_2 = 0.5$. Therefore, $\lambda_{max} = 1.5$ and
 $0 < \eta < \frac{2}{1.5} \Rightarrow 0 < \eta < 1.3333$
 
 \smallskip
-Countour plots for error function and descent trajectory for different $\eta$.
-
-\includegraphics[scale = 1]{d1.png}
-
-\includegraphics[scale = 1]{d2.png}
-
-\smallskip
-
-Optimal weight vector: $w* = [ 1.4779,-0.8332]$.
-
-
-\newpage
-
-Matlab code for steepest descent:
-\medskip
-\lstinputlisting{Ex32.m}
 
 \subsection{Exercise 3.8}
 The ensemble-averaged counterpart to the sum of error squares viewed as a cost function is the mean-square value

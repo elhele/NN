@@ -1,0 +1,11 @@
+Q: Of what consists the back propagation learning?
+
+A: It consists of two passes through the different layers of the network: forward (activity pattern is applied to sensory nodes of the network, synaptic weights are fixed) and backward (synaptic weights are adjusting according to the error-correction rule).
+
+Q: Name the distinctive characteristics of the multilayer perceptron.
+
+A: 1. The model of each neuron in the NN includes a nonlinear activation function. 2. NN has one or more layers of hidden neurons. 3. The network shows high degree of connectivity.
+
+Q: How to increase the learning rate and avoid instability?
+
+A: We can modify delta rule by including a momentum term: Δw_ji(n) = αΔw_ji(n - 1) + η𝛿_j(n)y_j(n) (generalized delta-rule).

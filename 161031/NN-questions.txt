@@ -2,7 +2,7 @@ Q: What is a perceptron convergance theorem?
 
 A: It is a proof of convergence of the perceptron algorithm.
 
-Q: Name and briefly the adaptive filter oparation processes.
+Q: Name and briefly describe the adaptive filter operation processes.
 
 A: Filtering process - computations of output signal and error signal, adaptive process - automatic weights adjustment. The processes form a feedback loop.
 
