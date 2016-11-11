@@ -99,6 +99,14 @@ NB: If you fail to implement the general case in order to get the full points it
 
 Solution:\\
 
+We've used the following rule for weights update:\\
+
+$\Delta w_{ij}(n) = \alpha  \Delta w_{ij}(n-1) + (1-\alpha)\eta \delta_j o_i$,\\
+where i, j are indices of neurons corresponding to the weights, $\delta$s are errors, o - output of the neuron, $\eta$ - learning rate and $\alpha$ -  a small constant.\\
+$w_{ij}(n) = w_{ij}(n - 1) + \Delta w_{ij}(n)$ \\
+
+It is important to mention that we've added a bias, because without it the results of learning we not satisfying.\\
+
 We've used the following Python code:
 
 \lstset{language=Python}
@@ -123,7 +131,7 @@ number_of_steps = 10000
 #sigmoid function
 def f(x):
     return 1/(1 + np.exp(-x))
-
+    
 def perceptron(w1, w2, u, eta):
     dw1 = np.array([0,0,0])
     dw2 = np.array([0,0,0])
@@ -132,14 +140,14 @@ def perceptron(w1, w2, u, eta):
     iter = 0
 
     while(abs(err)>0.02): # for zero weights - "for steps in range(number_of_steps)"
-        out = []
+        out = [] 
         iter += 1
         for i in range(len(y)):
             o_in1 = f(np.dot(x[i], w1))
             o_in2 = f(np.dot(x[i], w2))
             intermediate_out = np.array([o_in1, o_in2, bias])
             o_out = f(np.dot(intermediate_out, u))
-
+  
             delta_out = o_out * (y[i] - o_out) *  (1 -o_out)
             err = y[i] - o_out
             delta_h1 = o_in1 * (1 - o_in1) * u[0] * delta_out
@@ -147,11 +155,11 @@ def perceptron(w1, w2, u, eta):
             for j in range(3):
                 u[j] = alpha*du[j] + u[j] + (1 - alpha)*eta * delta_out * intermediate_out[j]
                 w1[j] = alpha*dw1[j] + w1[j] + (1 - alpha)*eta * delta_h1 * x[i][j]
-                w2[j] = alpha*dw2[j] + w2[j] + (1 - alpha)*eta * delta_h2 * x[i][j]
+                w2[j] = alpha*dw2[j] + w2[j] + (1 - alpha)*eta * delta_h2 * x[i][j] 
                 du[j] = alpha*du[j] + (1 - alpha)*eta * delta_out * intermediate_out[j]
-                dw1[j] = alpha*dw1[j] + (1 - alpha)*eta * delta_h1 * x[i][j]
-                dw2[j] = alpha*dw2[j] + (1 - alpha)*eta * delta_h2 * x[i][j]
-            out.append(o_out)
+                dw1[j] = alpha*dw1[j] + (1 - alpha)*eta * delta_h1 * x[i][j] 
+                dw2[j] = alpha*dw2[j] + (1 - alpha)*eta * delta_h2 * x[i][j] 
+            out.append(o_out) 
     output = ["%.3f" % element for element in out]
     print "iterations"
     print iter
@@ -187,6 +195,7 @@ print "eta4"
 print perceptron(w1_zero, w2_zero, u_zero, eta4)
 \end{lstlisting}
 
+The expected outputs for the following inputs [[0,0][0,1][1,0][1,1]] are [0, 1 ,1 ,0].
 
 For zero initial weights we've obtained the following (with a fixed and large number of steps):
 
@@ -204,7 +213,7 @@ eta4
 
 So, we can conclude that the network cannot be taught using zero initial weights. So, it can't converge.\\
 
-For random weights we used $\eta$s 0.1 (eta1), 0.3 (eta2), 0.5 (eta3), 0.9( eta4) and 1.5. We obtained the following:
+For random weights we used $\eta$s 0.1 (eta1), 0.3 (eta2), 0.5 (eta3), 0.9 (eta4) and 1.5. We obtained the following:
 \lstset{language=Python}
 \begin{lstlisting}[frame=single]
 eta1
@@ -229,9 +238,79 @@ iterations
 ['0.022', '0.981', '0.981', '0.020']
 \end{lstlisting}
 
-We can see that with increase of $\eta$ the learning is better and converges faster till certain value of $\eta$ (around 0.8-0.9 here), but then it learns more slow.\\
+We can see that with increase of $\eta$ the learning is better and converges faster till certain value of $\eta$ (around 0.8-0.9 here), but after it learns more slow.\\
 
-We have created a net of point from (0,0) to (1,1) and applied the perceptron to these points. The result is in Fig.
+We have created a net of points from (0,0) to (1,1) and applied the perceptron to these points. For that we've modified the code in the following way:
+
+\lstset{language=Python}
+\begin{lstlisting}[frame=single]
+def classify(x,w1,w2,u):
+    x = np.append(x,-1)
+    o_in1 = f(np.dot(x, w1))
+    o_in2 = f(np.dot(x, w2))
+    intermediate_out = np.array([o_in1, o_in2, -1])
+    o_out = f(np.dot(intermediate_out, u))
+    return o_out
+    
+from matplotlib import pyplot
+from math import cos, sin, atan
+
+%matplotlib inline
+
+points_to_classify = np.zeros([11,11,2])
+
+for i in range(11):
+    for j in range(11):
+        points_to_classify[i][j][0] = i / 10.0
+        points_to_classify[i][j][1] = j / 10.0
+
+points_to_draw = np.zeros([11,11])
+
+
+# random initial weights, 3 - because of the bias
+
+w1_rnd = np.array([np.random.random() for i in range(3)])
+w2_rnd = np.array([np.random.random() for i in range(3)])
+u_rnd = np.array([np.random.random() for i in range(3)])
+
+print "eta1"
+print perceptron(w1_rnd, w2_rnd, u_rnd, eta1)[0]
+weights = perceptron(w1_rnd, w2_rnd, u_rnd, eta1)[1]
+for i in range(11):
+    for j in range(11):
+        if classify(points_to_classify[i][j],weights[0],weights[1],weights[2]) > 0.5:
+            ones_arr = np.column_stack((ones_arr, points_to_classify[i][j]))
+        else:
+            zeros_arr = np.column_stack((zeros_arr, points_to_classify[i][j]))
+plt.plot(zeros_arr[0], zeros_arr[1], 'bo', ones_arr[0], ones_arr[1], 'ro')
+plt.show()
+
+print "weights"
+print weights
+
+print "eta3"
+weights = perceptron(w1_rnd, w2_rnd, u_rnd, eta3)[1]
+for i in range(10):
+    for j in range(10):
+        if classify(points_to_classify[i][j],weights[0],weights[1],weights[2]) > 0.5:
+            ones_arr = np.column_stack((ones_arr, points_to_classify[i][j]))
+        else:
+            zeros_arr = np.column_stack((zeros_arr, points_to_classify[i][j]))
+plt.plot(zeros_arr[0], zeros_arr[1], 'bo', ones_arr[0], ones_arr[1], 'ro')
+plt.show()
+
+print "weights"
+print weights
+
+\end{lstlisting}
+
+The results are depicted in Fig. \ref{fig:results}. We've plotted two point net classifications: for $\eta = 0.1$ and $\eta = 0.5$ with the following weights: [[w11 w12 w13][w21 w22 w23][u1 u2 u3]] = [[ 6.3716883   6.36724135  2.81390949] [ 4.52244586  4.52120091  6.93846284] [ 9.31095822 -9.98278592  4.30383744]] for $\eta = 0.1$ and [[ 6.37216319  6.36771883  2.81420294] [ 4.52300285  4.52175749  6.93930633] [ 9.31245678 -9.98430441  4.30460043]] for $\eta = 0.5$.
+
+\begin{figure}[h]
+  \centering
+  \caption{Classified points net, blue - 0, red - 1 \label{fig:results}}
+  \includegraphics[width=0.8\textwidth]{results}
+\end{figure}
 
 \subsection{Exercise 3}
 Investigate the use of back-propagation learning using a sigmoidal nonlinearity to achieve one-toone mappings, as described here:
