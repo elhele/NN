@@ -123,7 +123,7 @@ number_of_steps = 10000
 #sigmoid function
 def f(x):
     return 1/(1 + np.exp(-x))
-
+    
 def perceptron(w1, w2, u, eta):
     dw1 = np.array([0,0,0])
     dw2 = np.array([0,0,0])
@@ -132,14 +132,14 @@ def perceptron(w1, w2, u, eta):
     iter = 0
 
     while(abs(err)>0.02): # for zero weights - "for steps in range(number_of_steps)"
-        out = []
+        out = [] 
         iter += 1
         for i in range(len(y)):
             o_in1 = f(np.dot(x[i], w1))
             o_in2 = f(np.dot(x[i], w2))
             intermediate_out = np.array([o_in1, o_in2, bias])
             o_out = f(np.dot(intermediate_out, u))
-
+  
             delta_out = o_out * (y[i] - o_out) *  (1 -o_out)
             err = y[i] - o_out
             delta_h1 = o_in1 * (1 - o_in1) * u[0] * delta_out
@@ -147,11 +147,11 @@ def perceptron(w1, w2, u, eta):
             for j in range(3):
                 u[j] = alpha*du[j] + u[j] + (1 - alpha)*eta * delta_out * intermediate_out[j]
                 w1[j] = alpha*dw1[j] + w1[j] + (1 - alpha)*eta * delta_h1 * x[i][j]
-                w2[j] = alpha*dw2[j] + w2[j] + (1 - alpha)*eta * delta_h2 * x[i][j]
+                w2[j] = alpha*dw2[j] + w2[j] + (1 - alpha)*eta * delta_h2 * x[i][j] 
                 du[j] = alpha*du[j] + (1 - alpha)*eta * delta_out * intermediate_out[j]
-                dw1[j] = alpha*dw1[j] + (1 - alpha)*eta * delta_h1 * x[i][j]
-                dw2[j] = alpha*dw2[j] + (1 - alpha)*eta * delta_h2 * x[i][j]
-            out.append(o_out)
+                dw1[j] = alpha*dw1[j] + (1 - alpha)*eta * delta_h1 * x[i][j] 
+                dw2[j] = alpha*dw2[j] + (1 - alpha)*eta * delta_h2 * x[i][j] 
+            out.append(o_out) 
     output = ["%.3f" % element for element in out]
     print "iterations"
     print iter
@@ -231,100 +231,6 @@ iterations
 
 We can see that with increase of $\eta$ the learning is better and converges faster till certain value of $\eta$ (around 0.8-0.9 here), but then it learns more slow.\\
 
-We have created a net of point from (0,0) to (1,1) and applied the perceptron to these points. The result is in Fig.
-
-\subsection{Exercise 3}
-Investigate the use of back-propagation learning using a sigmoidal nonlinearity to achieve one-toone mappings, as described here:
-\begin{enumerate}
-\item $F(x) = 1/x 1<=x<=100$
-
-\item $F(x) = log10(x) 1<=x<=10$
-
-\item $F(x) = exp(-x) 1<=x<=10$
-
-\item $F(x) = sin(x) 0<=x<=pi/2$
-\end{enumerate}
-For each mapping, do the following:
-\begin{itemize}
-\item Set up two sets of data, one for network training, and the other for testing.
-
-\item Use the training data set to compute the synaptic weights of the network, assumed to have a single hidden layer.
-
-\item Evaluate the computation accuracy of the network by using the test data. Use a single hidden layer but with a variable number of hidden neurons. Investigate how the network performance is affected by varying the size of the hidden layer.
-\end{itemize}
-
-
-You can use any neural network toolbox (MATLAB or python or ...) for solving this
-
-problem or you can use your own implementation of MLP from previous question.
-\subsection{Solution}
-
-MLP backpropagation algorithm was implemented in MATLAB and has 2 functions:
-\begin{itemize}
-\item MLP evaluation;
-
-\item MLP backpropagation.
-\end{itemize}
-
-The algorithm works for MLP with any number of hidden layers and sigmoid activation function.
-\medskip
-
-MLP evaluation:
-\medskip
-
-\lstinputlisting{fmlp.m}
-\newpage
-
-Training MLP by backpropagation.
-\medskip
-\lstinputlisting{trainMLP.m}
-
-\medskip
-In the exercise, SISO functions were modelled with a single hidden layer. Initial weights were taken as uniformly distributed numbers in $[0,1]$. Training and testing sets were created to verify MLP performance.
-\medskip
-Matlab script with experiment setup:
-
-\lstinputlisting{Ex3.m}
-
-\newpage
-Results of the experiments:
-
-\begin{enumerate}
-\item $1/x$ function with 2 neurons in hidden layer. 
-
-\includegraphics[scale = 0.8]{hyp2.png}
-
-\item $1/x$ function with 5 neurons in hidden layer.
-
-\includegraphics[scale = 0.8]{hyp5.png}
-
-\item $log_{10}$ function with 2 neurons in hidden layer.
-
-\includegraphics[scale = 0.8]{log2.png}
-
-\item $log_{10}$ function with 5 neurons in hidden layer.
-
-\includegraphics[scale = 0.8]{log5.png}
-
-\item $\exp(-x)$ function with 2 neurons in hidden layer.
-
-\includegraphics[scale = 0.8]{exp2.png}
-
-\item $\exp(-x)$ function with 5 neurons in hidden layer.
-
-\includegraphics[scale = 0.8]{exp5.png}
-
-\item $\sin(x)$ function with 2 neurons in hidden layer.
-
-\includegraphics[scale = 0.8]{sin2.png}
-
-\item $\sin(x)$ function with 5 neurons in hidden layer.
-
-\includegraphics[scale = 0.8]{sin52.png}
-
-
-\end{enumerate}
-
-It can be seen, that extra hidden layers increase precision of the MLP. However, MLP is still sensitive to initial weights and parameter $\eta$.
+We have created a net of point from (0,0) to (1,1) and applied the perceptron to these points. The result is in Fig. 
 
 \end{document}

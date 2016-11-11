@@ -10,12 +10,7 @@ for j=1:nlayers
         out{j}(i) = squash(out{j}(i));
     end  
     input = out{j};
-    
+   
 end
-
-
-
-
-
 end
 

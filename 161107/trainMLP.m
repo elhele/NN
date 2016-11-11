@@ -36,9 +36,8 @@ for i=1:length(x)
         %Weight update
         w{j} = w{j}+transpose(dw{j});
     end
-    
+   
 end
-
 
 end
 
