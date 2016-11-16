@@ -1,0 +1,11 @@
+Q: What involves the construction of radial-basis function network?
+
+A: It involves three levels: input layer (sensory units) those connect it to environment, only one hidden layer applies a nonlinear transformation and it is mathematically described by a radialbasis function, linear output layer consists of a single computational unit.
+
+Q: Formulate the multivariable interpolation problem.
+
+A: Given a set of N different points {x_j E R(m_0)|i = 1,2,...,N} and a corresponding set of real numbers N {d_i E R(1)|i = 1,2,...,N}, find a function that satisfies the interpolation condition: F(x_i) = d_i, i = 1, 2, ..., N
+
+Q: What is clustering?
+
+A: Clustering is a form of unsupervised learning whereby a set of observations is partitioned into natural groupings or clusters of patterns in such a way that the measure of similarity between any pair of observations assigned to each cluster minimizes a specified cost function.
