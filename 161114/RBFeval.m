@@ -4,7 +4,6 @@ rbf = @(x,c,sigma1) exp(-norm(x-c)^2/(2*sigma1^2));
 
 if length(input)>1
     out = [];
-    
     for i = 1:length(input)
         pout = 0;
         for j = 1:length(c)
@@ -15,7 +14,6 @@ if length(input)>1
 else
     out = sum(w.*rbf(input,c,sigmavar));
 end
-
 
 end
 
