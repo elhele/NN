@@ -465,13 +465,13 @@ Let the learning-rate parameter of the LMS algorithm be annealed linearly from 0
 \subsection{Exercise 3}
 Repeat the Ex3 from the previous assignment with the Radial Basis Functions. Investigate the use of Radial Basis Functions to achieve one-to-one mappings, as described here:
 \begin{enumerate}
-\item $F(x) = 1/x 1<=x<=100$
+\item $F(x) = 1/x ~1<=x<=100$
 
-\item $F(x) = log10(x) 1<=x<=10$
+\item $F(x) = log10(x) ~1<=x<=10$
 
-\item $F(x) = exp(-x) 1<=x<=10$
+\item $F(x) = exp(-x) ~1<=x<=10$
 
-\item $F(x) = sin(x) 0<=x<=pi/2$
+\item $F(x) = sin(x) ~0<=x<=pi/2$
 \end{enumerate}
 For each mapping, do the following:
 \begin{itemize}
@@ -500,7 +500,7 @@ Matlab code for RBF NN training:
 
 \subsubsection{Experimental results}
 
-The NN can easily mimic nonlinear functions. Random centroids shows better performance that fixed step size grid. Usually, the error goes to machine zero. 
+The NN can easily mimic nonlinear functions. Random centroids shows better performance that fixed step size grid. Usually, the error goes to machine zero.
 
 Results of the experiments:
 \begin{enumerate}
@@ -554,11 +554,11 @@ Dependency of error based on number of hidden neurons:
 \newpage
 \item $log_{10}$ function with uniform centroids.
 
-\includegraphics[scale = 0.8]{e2.png}
+\includegraphics[scale = 0.8]{e22.png}
 
 \item $log_{10}$ function with grid centroids.
 
-\includegraphics[scale = 0.8]{e22.png}
+\includegraphics[scale = 0.8]{e2.png}
 \newpage
 \item $\exp(-x)$ function with uniform centroids.
 

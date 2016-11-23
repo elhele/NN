@@ -3,8 +3,8 @@ function [w,c,sigmavar ] = trainRBF( x,t,N )
 rbf = @(x,c,sigma1) exp(-norm(x-c)^2/(2*sigma1^2));
 
 %Random centroids
- c = (max(x)-min(x)).*rand(N,1) + min(x);
-%Uniform centroids
+  c = (max(x)-min(x)).*rand(N,1) + min(x);
+%Grid centroids
 %c = min(x):(max(x)-min(x))/(N-1):max(x);
 
 %Sigma based on distance to 2 neighbour centroids

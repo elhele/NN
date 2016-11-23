@@ -44,9 +44,12 @@ title('Error dynamics')
 
 figure(1)
 hold on
-plot(xtest,y1)
-plot(xtest,y2)
-plot(xtest,y3)
+plot(xtest,y1,'r')
+plot(xtest,y2,'g')
+plot(xtest,y3,'b')
+plot(c1,zeros(1,length(c1)),'r*')
+% plot(c2,zeros(1,length(c2)),'g*')
+% plot(c3,zeros(1,length(c3)),'b*')
 plot(x,t)
 grid on
 xlabel('x')
