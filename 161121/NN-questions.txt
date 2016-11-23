@@ -1,0 +1,11 @@
+Q: What is a main idea of support vector machine approach?
+
+A: It is a creation of a hyperplane (decision surface) that separates positive and negative examples in such a way the the separation margin is maximized.
+
+Q: What is the duality theorem about?
+
+A: 1. If the primal problem has an optimal solution, the dual problem also has an optimal solution, and the corresponding optimal values are equal. 2. In order for w_0 to be an optimal primal solution and alpha_0 to be an optimal dual solution, it is necessary and sufficient that w_0 is feasible for the primal problem.
+
+Q: How can we determin the dimensionality of the feature space?
+
+A: Dimensionality of the feature space depends on the number of support vectors extracted from the training data by the solution of the constrained optimisation problem
