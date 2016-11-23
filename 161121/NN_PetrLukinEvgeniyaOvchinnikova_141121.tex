@@ -68,12 +68,147 @@
 
 \subsection{Exercise 2}
 
+The graphs below represent three different one-dimensional classification
+(dichotomization) tasks (along a sketched x-axis, dash means "no data point"”). What is the lowest-order polynomial decision function that can correctly classify the given data? Black dots d note class 1 with target function value y1 = +1 and white dots depict class 2 with targets y2 = -1. What are the decision boundaries?\\
+
+\begin{figure}[h!]
+  \centering
+  \caption{The dots \label{fig:dots}}
+  \includegraphics[width=0.5\textwidth]{dots}
+\end{figure}
+
+If you wanted to classify the data sets (a), (b), (c) from Fig.\ref{fig:dots} using SVM’s with Gaussian basis functions, how many hidden layer neurons would you need for each problem?\\
+
+Solution:\\
+
+From the positive and negative examples distribution we can assume that (a) requires a second order polynomial function, (b) - third degree and (c) - just a linear one (Fig. \ref{fig:dotsPol}).\\
+
+\begin{figure}[h!]
+  \centering
+  \caption{The dots with classification polynoms \label{fig:dotsPol}}
+  \includegraphics[width=0.5\textwidth]{dotsPol}
+\end{figure}
+
+To proof it we used the following code:\\
 
 \lstset{language=Python}
 \begin{lstlisting}[frame=single]
+from itertools import product
 
+import numpy as np
+import matplotlib.pyplot as plt
+%matplotlib inline
+from sklearn.svm import SVC
+import sklearn.svm as svm
+
+Xa = np.array([[1,0],[2,0],[5,0],[6,0],[9,0],[11,0],[12,0]])
+ya = np.array([-1, -1, 1, 1, -1, -1,-1])
+Xb = np.array([[1,0],[3,0],[4,0],[6,0],[7,0],[10,0],[11,0],[12,0],[14,0]])
+yb = np.array([1, -1, -1, 1, 1, -1, -1, -1, -1])
+Xc = np.array([[1,0],[2,0],[3,0],[4,0],[5,0],[9,0]]) 
+yc = np.array([1,1,1,1,1,-1])
+
+def classify_and_plot(X,Y, degr):
+    clf = svm.SVC(kernel='poly', coef0 = 1, probability=True, degree = degr, gamma=2)
+    clf.fit(X, Y)
+    x_min, x_max = X[:, 0].min() - 1, X[:, 0].max() + 1
+    y_min, y_max = X[:, 1].min() - 1, X[:, 1].max() + 1
+    h = 0.1
+    x, y = np.meshgrid(np.arange(x_min, x_max, h), np.arange(y_min, y_max, h))
+    #print np.c_[xx.ravel(), yy.ravel()]
+    Z = clf.predict(np.c_[x.ravel(), y.ravel()])
+    Z = Z.reshape(x.shape)
+    plt.pcolormesh(x, y, Z, cmap=plt.cm.Paired)
+    plt.scatter(X[:, 0], X[:, 1], c=Y, cmap=plt.cm.Paired)
+    plt.title('SVM classification')
+    plt.axis('tight')
+    plt.grid()
+    plt.show()
 \end{lstlisting}
 
+First, we will try to classify all the cases with degree = 1:
 
+\lstset{language=Python}
+\begin{lstlisting}[frame=single]
+classify_and_plot(Xa, ya, 1)
+classify_and_plot(Xb, yb, 1)
+classify_and_plot(Xc, yc, 1)
+\end{lstlisting}
+
+The results are shown in Fig. \ref{fig:a1}. We can see that the classification for (c) case is correct, so a linear function is fine for this case. Classifications for (a) and (b) are wrong.\\
+
+
+\begin{figure}[!htb]
+\minipage{0.32\textwidth}
+  \includegraphics[width=\linewidth]{a1}
+  \caption{Classification for (a) case with degree = 1}\label{fig:a1}
+\endminipage\hfill
+\minipage{0.32\textwidth}
+  \includegraphics[width=\linewidth]{b1}
+  \caption{lassification for (b) case with degree = 1}\label{fig:b1}
+\endminipage\hfill
+\minipage{0.32\textwidth}%
+  \includegraphics[width=\linewidth]{c1}
+  \caption{Alassification for (c) case with degree = 1}\label{fig:c1}
+\endminipage
+\end{figure}
+
+So, we will test (a) and (b) with degree = 2:
+\lstset{language=Python}
+\begin{lstlisting}[frame=single]
+classify_and_plot(Xa, ya, 2)
+classify_and_plot(Xb, yb, 2)
+\end{lstlisting}
+
+\begin{figure}[!htb]
+\minipage{0.32\textwidth}
+  \includegraphics[width=\linewidth]{a2}
+  \caption{Classification for (a) case with degree = 2}\label{fig:a2}
+\endminipage\hfill
+\minipage{0.32\textwidth}
+  \includegraphics[width=\linewidth]{b2}
+  \caption{lassification for (b) case with degree = 2}\label{fig:b2}
+\endminipage\hfill
+\end{figure}
+
+
+In Fig. \ref{fig:a2} we see that, as expected, classification for (a) is good, but classification for (b) still failing. So, we need to try degree = 3:
+\lstset{language=Python}
+\begin{lstlisting}[frame=single]
+classify_and_plot(Xb, yb, 3)
+\end{lstlisting}
+
+\begin{figure}[!htb]
+  \centering
+  \caption{Classification for (b) case with degree = 3 \label{fig:b3}}
+  \includegraphics[width=0.3\textwidth]{b3}
+\end{figure}
+
+
+If we wanted to classify the data sets (a), (b), (c) using SVM’s with Gaussian basis functions, we to use another - 'rbf' - kernel function:
+
+\lstset{language=Python}
+\begin{lstlisting}[frame=single]
+clf = svm.SVC(kernel='rbf', coef0 = 1, probability=True, degree = degr, gamma=2)
+\end{lstlisting}
+
+We will obtain the following results:
+
+\begin{figure}[!htb]
+\minipage{0.32\textwidth}
+  \includegraphics[width=\linewidth]{arbf}
+  \caption{Classification for (a) case with Gaussian basis function}\label{fig:arbf}
+\endminipage\hfill
+\minipage{0.32\textwidth}
+  \includegraphics[width=\linewidth]{brbf}
+  \caption{lassification for (b) case with Gaussian basis function}\label{fig:brbf}
+\endminipage\hfill
+\minipage{0.32\textwidth}%
+  \includegraphics[width=\linewidth]{crbf}
+  \caption{Alassification for (c) case with Gaussian basis function}\label{fig:crbf}
+\endminipage
+\end{figure}
+
+To determine the number of neurons we need a number of features in a feature space that depends on the number of support vectors extracted from the training data. From Fig. \ref{fig:arbf} we can see that in (a) case we have 4 support vectors, in (b) - 6 and in (c) - 2. So, we should have 4, 5 and 2 neurons.
 
 \end{document}
