@@ -105,7 +105,7 @@ Xa = np.array([[1,0],[2,0],[5,0],[6,0],[9,0],[11,0],[12,0]])
 ya = np.array([-1, -1, 1, 1, -1, -1,-1])
 Xb = np.array([[1,0],[3,0],[4,0],[6,0],[7,0],[10,0],[11,0],[12,0],[14,0]])
 yb = np.array([1, -1, -1, 1, 1, -1, -1, -1, -1])
-Xc = np.array([[1,0],[2,0],[3,0],[4,0],[5,0],[9,0]]) 
+Xc = np.array([[1,0],[2,0],[3,0],[4,0],[5,0],[9,0]])
 yc = np.array([1,1,1,1,1,-1])
 
 def classify_and_plot(X,Y, degr):
@@ -210,5 +210,205 @@ We will obtain the following results:
 \end{figure}
 
 To determine the number of neurons we need a number of features in a feature space that depends on the number of support vectors extracted from the training data. From Fig. \ref{fig:arbf} we can see that in (a) case we have 4 support vectors, in (b) - 6 and in (c) - 2. So, we should have 4, 5 and 2 neurons.
+
+\subsection{Exercise 3}
+
+Download LIVSVM from http://www.csie.ntu.edu.tw/~cjlin/libsvm/. Study how to use it with MATLAB or python. In this exercise you have to use this.
+Figure 1.8 on next page shows a pair of “moons” facing each other in an asymmetrically arranged manner. The moon labeled “Region A” is positioned symmetrically with respect to the y-axis, whereas the moon labeled “Region B” is displaced to the right of the y-axis by an amount equal to the radius $r$ and below the x-axis by the distance $d$. The two moons have identical parameters:
+\begin{itemize}
+\item Radius of each moon, r = 10,
+\item Width of each moon, w = 6.
+\end{itemize}
+The vertical distance d separating the two moons is adjustable; it is measured with respect to the x-axis, as indicated in the figure \ref{fig:moons}.
+\begin{itemize}
+\item Increasingly positive values of d signify increased separation between the two moons;
+\item Increasingly negative values of d signify the two moons’ coming closer to each other.
+\end{itemize}
+
+\begin{figure}[!htb]
+
+  \includegraphics[width=\linewidth]{moons}
+  \caption{Data distribution}\label{fig:moons}
+
+\end{figure}
+The training sample consists of 1000 pairs of data points, with each pair consisting of one point picked from region A and another point picked from region B, both randomly. The test sample consists of 3,000 pairs of data points, again picked in a random manner.
+
+Tasks:
+Your task is to classify the dataset using SVM (Support Vector Machine) for some cases given below. Generate the dataset for each case and classify using different kernels (e.g. linear, polynomial, radial basis etc.) Show the decision boundary (Plotting the classified points using different color will be enough)
+\begin{itemize}
+\item Case 1: $d = 0$
+\item Case 2: $|d| = 1/2 * $(radius of moon’s inner half-circle) and $d$ is negative i.e. d is in the upper side of x-axis.
+\item Case 3: Increase $d$ negatively such that both of the moons touch each other.
+\item Case 4: Both moons overlap each other
+\item Case 5: Add some noise in the training set
+\end{itemize}
+Try to experiment with different options in svmtrain (LIBSVM). Comment on your findings.
+This experiment is taken from Haykin’s book (3rd edition) which is introduced in the first chapter and continued throughout the book (chapter 2, 3, 4). For intuition, you can take a look in it.
+
+Solution to this problem includes 2 MATLAB programs. One is used for double moon data generation. The user can choose number of data points, parameter $d$ and add gaussian noise to data with variance.
+
+\lstinputlisting{generate_moons.m}
+
+The next function uses generated data to train SVM based on chosen kernel type. Then, classification is applied to test data set and finally, uniformly distributed datapoints are classified to find decision boundary.
+
+\lstinputlisting{Ex3.m}
+
+Classification results:
+
+\subsubsection{Case $d = 0$}
+
+The moons can be easily distinguished and hence, separated even with linear kernel with high precision. Other kernels have good results as well.
+\begin{figure}[!htb]
+
+  \includegraphics[width=\linewidth]{1poly1}
+  \caption{Data distribution}
+\end{figure}
+\clearpage
+\begin{figure}[!htb]
+  \includegraphics[width=\linewidth]{1lin2}
+  \includegraphics[width=\linewidth]{1lin3}
+  \caption{Linear kernel}
+\end{figure}
+\clearpage
+\begin{figure}[!htb]
+  \includegraphics[width=\linewidth]{1poly2}
+  \includegraphics[width=\linewidth]{1poly3}
+  \caption{3-rd order polynomial kernel}
+\end{figure}
+\clearpage
+\begin{figure}[!htb]
+  \includegraphics[width=\linewidth]{1rbf2}
+  \includegraphics[width=\linewidth]{1rbf3}
+  \caption{Gauss kernel}
+\end{figure}
+
+\newpage
+
+\subsubsection{Case $d = -3.5$}
+
+In this case moons still can be distinguished, but there is no line that can separate them easily.  So, linear kernel can not cope with it anymore. RBF kernel has the same good performance.
+
+
+
+  \includegraphics[width=\linewidth]{2lin1}
+
+
+\clearpage
+\begin{figure}[!htb]
+  \includegraphics[width=\linewidth]{2lin2}
+  \includegraphics[width=\linewidth]{2lin3}
+  \caption{Linear kernel}
+\end{figure}
+\clearpage
+\begin{figure}[!htb]
+  \includegraphics[width=\linewidth]{2poly2}
+  \includegraphics[width=\linewidth]{2poly3}
+  \caption{3-rd order polynomial kernel}
+\end{figure}
+\clearpage
+\begin{figure}[!htb]
+  \includegraphics[width=\linewidth]{1rbf2}
+  \includegraphics[width=\linewidth]{1rbf3}
+  \caption{Gauss kernel kernel}
+\end{figure}
+
+\newpage
+
+\subsubsection{Case $d = -7$. Moons slightly connected}
+
+In this case moons are connected but still can be divided. Linear and polynomial kernel work worse that RBF kernel.
+
+  \includegraphics[width=\linewidth]{3lin1}
+
+\clearpage
+\begin{figure}[!htb]
+  \includegraphics[width=\linewidth]{3lin2}
+  \includegraphics[width=\linewidth]{3lin3}
+  \caption{Linear kernel}
+\end{figure}
+\clearpage
+\begin{figure}[!htb]
+  \includegraphics[width=\linewidth]{3poly2}
+  \includegraphics[width=\linewidth]{3poly3}
+  \caption{3-rd order polynomial kernel}
+\end{figure}
+\clearpage
+\begin{figure}[!htb]
+  \includegraphics[width=\linewidth]{3rbf2}
+  \includegraphics[width=\linewidth]{3rbf3}
+  \caption{Gauss kernel }
+\end{figure}
+
+\newpage
+
+\subsubsection{Case $d = -13$. Moons overlay}
+
+Moons can not be recognized by eyesight. All kernels, except RBF kernel show bad performance. RBF has accuracy around 78\%. This accuracy do not grow with extra training data.
+
+
+
+  \includegraphics[width=\linewidth]{4poly1}
+\clearpage
+
+\begin{figure}[!htb]
+  \includegraphics[width=\linewidth]{3lin2}
+  \includegraphics[width=\linewidth]{3lin3}
+  \caption{Linear kernel}
+\end{figure}
+\clearpage
+\newpage
+
+Gauss kernel.
+  \includegraphics[width=\linewidth]{4rbf2}
+  \includegraphics[width=\linewidth]{4rbf3}
+
+
+
+\newpage
+\subsubsection{Case noise}
+
+Noise can spoil even the easiest example. With $d=0$, linear kernel already has troubles
+
+  \includegraphics[width=\linewidth]{1lin1n}
+
+\clearpage
+
+  \includegraphics[width=\linewidth]{1lin2n}
+  \includegraphics[width=\linewidth]{1lin3n}
+
+\newpage
+\subsubsection{The hardest case}
+Overlapping moons and noise. RBF kernel SVM still shown good results.
+
+
+\begin{figure}[!hb]
+  \includegraphics[width=\linewidth]{5rbf1}
+  \caption{Data distribution}
+\end{figure}
+\clearpage
+
+
+\begin{figure}[!hb]
+  \includegraphics[width=\linewidth]{5poly2}
+  \includegraphics[width=\linewidth]{5poly3}
+  \caption{3-rd order polynomial kernel}
+\end{figure}
+\clearpage
+\begin{figure}[!hb]
+  \includegraphics[width=\linewidth]{5rbf2}
+  \includegraphics[width=\linewidth]{5rbf3}
+  \caption{Gauss kernel }
+\end{figure}
+\clearpage
+
+
+\newpage
+\subsubsection{Results}
+\begin{itemize}
+\item In case with two moons RBF kernel has the best classification abilities. 
+\item It also shown good computational efficiency.
+\item Linear classification is really cheap but useless.
+\item Polynomial kernel are really expensive and usually worse that RBF.
+\end{itemize}
 
 \end{document}

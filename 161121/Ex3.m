@@ -1,10 +1,15 @@
+%% Exercise 3 Neural networks.
+%Train and test SVM
+%Authors P.Lukin, E. Ovchinnikova 
 close all
 clear all
 clc
-d = -3.5;
-[moons,labels] = generate_moons(d,1000,1);
+%Train and test data generation
+d = -7;
+[moons,labels] = generate_moons(d,1000,0);
+[test_moons,test_labels] = generate_moons(d,3000,0);
 
-[test_moons,test_labels] = generate_moons(d,3000,1);
+%Plot train data
 figure(1)
 plot(moons(:,1),moons(:,2),'b.')
 grid on
@@ -13,12 +18,13 @@ title('Data distribution')
 xlabel('x')
 ylabel('y')
 
-
-model = svmtrain(labels, moons,'-t 2 -d 4');
+%Train SVM with defined kernel
+model = svmtrain(labels, moons,'-t 3 -d 5');
 [predicted_label, accuracy, decision_values] =svmpredict(test_labels, test_moons, model, [, 'libsvm_options']);
 x = test_moons(:,1);
 y = test_moons(:,2);
 
+%Classification results
 figure(2)
 hold on
 scatter(x(predicted_label == 1), y(predicted_label == 1), 'g', '.')
@@ -30,7 +36,7 @@ xlabel('x')
 ylabel('y')
 hold off
 
-%Decision boundary
+%Decision boundary, generate uniform points and apply classification
 uniform_points = [-15+40*rand(10000,1) -15+40*rand(10000,1)];
 [predicted_label, accuracy, decision_values] =svmpredict(rand(10000,1), uniform_points, model, [, 'libsvm_options']);
 
