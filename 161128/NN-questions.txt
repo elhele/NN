@@ -1,0 +1,11 @@
+Q: Formulate the principle of topographic map formation.
+
+A: The spatial location of an output neuron in a topographic map corresponds to a particular domain of data drawn from the input space.
+
+Q: Name the essential processes involved in the formation of SOM.
+
+A: Competition, cooperation, synaptic adaptation.
+
+Q: How large can be a neuron's neighborhood in a convergence phase of the adaptive process?
+
+A: It can only contain the nearest neighbors of the neuron or even be of a zero radius - contain only one neuron.
