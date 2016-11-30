@@ -110,7 +110,7 @@ Program a SOM to solve the traveling salesman problem (TSP):
 
 Solution:\\
 
-First we plot the cities and initial neuron weights (Fig. \ref{citiesCoord}). One can see that here we have 12 -more than 6 hidden neurons. The reason is that with 6 and even 10 neurons we ended up in a local minimum - with one neuron stuck between two cities.
+First we plot the cities and randomly initialized on a circle of radius 3 initial neuron weights (Fig. \ref{citiesCoord}). One can see that here we have 12 -more than 6 hidden neurons. The reason is that with 6 and even 10 neurons we ended up in a local minimum - with one neuron stuck between two cities. It is also important that we are sorting the neurons coordinates by angle in polar coordinates so they would be enumerated from 1 to 12 in a circle.
 
 \begin{figure}[h]
   \centering
@@ -128,19 +128,25 @@ import math
 from numpy import linalg as LA
 %matplotlib inline
 
-cities_names = np.array(["Schwerin", "Wismar", "Rostok", "Stralsund", "Greifswald", "Neubrandenburg"])
-cities_coordinates = np.array([[2,1],[4,6],[9,8],[13,10],[18,8],[17,1]])
+cities_names = np.array([ "Wismar", "Rostok", "Stralsund", "Schwerin","Greifswald", "Neubrandenburg"])
+cities_coordinates = np.array([[4,6],[9,8],[13,10],[2,1],[18,8],[17,1]])
 
 leng = 12
 neuron_numbers = np.arange(leng)
-circle_x = np.random.randint(90, 150, leng)
-circle_x = circle_x/10.0
+
+angles = np.random.randint(0, 360, leng)
+angles = angles*math.pi/180
+angles = np.sort(angles)
+print angles
+
+r = 3
+circle_x = np.array([])
 circle_y = np.array([])
-for i in range(leng):
-    sign = 1
-    if (i%2 == 0):
-        sign = -1
-    y = sign*math.sqrt(9 - (circle_x[i]-12)**2) + 4
+
+for angle in angles:
+    x = r*math.cos(angle) + 12
+    y = r*math.sin(angle) + 4
+    circle_x = np.append(circle_x, x)
     circle_y = np.append(circle_y, y)
 
 initial_weights = np.column_stack((circle_x, circle_y))
@@ -157,15 +163,16 @@ def plot(cities_coordinates, weights):
         ax.annotate(cities_names[i], (cities_coordinates[i,0],cities_coordinates[i,1]))
     for i in range(len(neuron_numbers)):
         ax.annotate(neuron_numbers[i], (weights[i,0],weights[i,1]))
-
+    plt.plot(np.append(weights[:,0], weights[0,0]), np.append(weights[:,1], weights[0,1]))
     plt.show()
+    
 plot(cities_coordinates, weights)
 \end{lstlisting}
 
 Next part of the program implements the learning. In a cycle over all cities we check the distances between the city and neurons and move the closest neuron to the city according to the following formula:
 
 $w_j(n+1) = w_j(n) _ \eta(n) h_{j,i(x)}(n)(x(n) - w_j(n))$,
-where $\eta$ is a learning rate, $h_{j,i(x)}$ is a neighboring function, which is not really important in our case since we are required to use only one neuron, and x - coordinates of a city of our concern. We repeat it until all cities have neurons in a distance less than 0.0001 from them.
+where $\eta$ is a learning rate, $h_{j,i(x)}$ is a neighboring function, which is not really important in our case since we are required to use only one neuron, and x - coordinates of a city of our concern. We repeat it until the overall distance between cities and neurons is less than 0.0001.
 
 
 \lstset{language=Python}
@@ -173,11 +180,11 @@ where $\eta$ is a learning rate, $h_{j,i(x)}$ is a neighboring function, which i
 change = 100
 step = 0
 summ = 100
-indicies = np.array([])
+indices = np.array([])
 
 while(abs(summ) > 0.0001):
     summ = 0
-    indicies = np.array([])
+    indices = np.array([])
     for city in cities_coordinates:
         #Determine the winning neuron 
         dists = np.array([])
@@ -185,31 +192,59 @@ while(abs(summ) > 0.0001):
             dist = math.hypot(city[0]-weight[0], city[1]-weight[1])
             dists = np.append(dists, dist)
         winner_index = np.argmin(dists)
-        indicies = np.append(indicies, winner_index)
+        indices = np.append(indices, winner_index)
         #Adapt the weights of the winner neuron:
         weights[winner_index] = weights[winner_index] + eta(step)*(city - weights[winner_index])
         change = LA.norm(eta(step)*(city - weights[winner_index]))
         summ += change
     step += 1
 print step
-print indicies
+indices = np.sort(indices)
+print indices
 
->> 231
->> [  2.   5.  11.   1.   7.   0.]
+>> 224
+>> [  0.   4.   5.   6.   8.  11.]
 \end{lstlisting}
 
-The algorithm converged in 231 steps and returned us the indices of neurons those are the closest to the cities. So, now we can plot the neurons with the cities and a path (Fig.\ref{fig:path}). The path length = 58.71443512.
+The algorithm converged in 224 steps and returned us the indices of neurons those are the closest to the cities. In order to find an optimal way we need to sort them. So, now we can plot the neurons with the cities and a path (Fig.\ref{fig:path}). The path length = 42.6951.
 
 \begin{figure}[!htb]
 \minipage{0.5\textwidth}
   \includegraphics[width=\linewidth]{neuronsWithCities}
-  \caption{Paired neurons.}\label{fig:neuronsWithCities}
+  \caption{Final neurons' positions.}\label{fig:neuronsWithCities}
 \endminipage\hfill
 \minipage{0.5\textwidth}
   \includegraphics[width=\linewidth]{path}
   \caption{Path.}\label{fig:path}
 \endminipage\hfill
 \end{figure}
+
+For that we used the following code:
+
+\lstset{language=Python}
+\begin{lstlisting}[frame=single]
+#drop not needed weights
+weights_assigned = weights[indices[0]]
+for i in range(1,6):
+    weights_assigned = np.row_stack((weights_assigned, weights[indices[i]]))
+weights_assigned = np.row_stack((weights_assigned, weights[indices[0]]))
+
+fig, ax = plt.subplots()
+ax.scatter(cities_coordinates[:,0], cities_coordinates[:,1], c = 'r')
+
+#ax.annotate(cities_names[0], xy=cities_coordinates[], xytext=(3, 1.5))
+
+length = 0
+for i in range(len(cities_names)):
+    ax.annotate(cities_names[i], (cities_coordinates[i,0],cities_coordinates[i,1]))
+    length += math.hypot(weights_assigned[i,0]-weights_assigned[i+1,0], weights_assigned[i,1]-weights_assigned[i+1,1])
+    
+plt.plot(weights_assigned[:,0], weights_assigned[:,1])
+plt.show()
+print length
+
+>>42.6951103552
+\end{lstlisting}
 
 In the end we need to compare our solution with the one that will be returned by Concorde TSPLIB (Fig. \ref{pathConcorde}). The paths are identical. It is hard to estimate time and memory, because in both cases they are too small. Concorde rounded time to 0.
 
