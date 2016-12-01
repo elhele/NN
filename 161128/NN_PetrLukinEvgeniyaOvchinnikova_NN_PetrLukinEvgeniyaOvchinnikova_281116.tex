@@ -114,15 +114,15 @@ Solution to this problem is not deterministic. Due to fixed learning rate, neuro
 
 \begin{figure}[h]
   \centering
-  \caption{Typical weight distribution with initialization $[0.15, 0.45]$.}
+  \caption{Typical weights distribution with initialization $[0.15, 0.45]$.}
   \includegraphics[scale = 0.7]{1}
 \end{figure}
 
-In the second case: $[0.3, 0.9]$, the first neuron will be always a winner, given this input space. And this neuron will oscillate oscillate around initial value.
+In the second case: $[0.3, 0.9]$, the first neuron will be always a winner, given this input space. And this neuron will oscillate around initial value. While the other one will be unchanged.
 
 \begin{figure}[h]
   \centering
-  \caption{Typical weight distribution with initialization $[0.3, 0.9]$.}
+  \caption{Typical weights distribution with initialization $[0.3, 0.9]$.}
   \includegraphics[scale = 0.7]{4}
 \end{figure}
 
@@ -131,13 +131,13 @@ In the second case: $[0.3, 0.9]$, the first neuron will be always a winner, give
 
  \begin{figure}[h]
   \centering
-  \caption{Typical weight distribution with initialization $[0.15, 0.45]$ and $\nu = 0.001$.}
+  \caption{Typical weights distribution with initialization $[0.15, 0.45]$ and modified stop condition.}
   \includegraphics[scale = 0.7]{2}
 \end{figure}
 We can partially avoid this oscillations by adding learning rate decay. For example, we can use this rule: $\nu(k) = nu_0 \exp^{-k/2}$.
 \begin{figure}[h]
   \centering
-  \caption{Weight distribution with initialization $[0.15, 0.45]$ and $\nu$ decay.}
+  \caption{Weights distribution with initialization $[0.15, 0.45]$ and $\nu$ decay.}
   \includegraphics[scale = 0.7]{3}
 \end{figure}
 
@@ -156,7 +156,7 @@ Finally, if we conduct multiple experiment with the same initial weights, mean v
   \includegraphics[scale = 0.7]{2mean}
 \end{figure}
 
-\newpage 
+\newpage
 \subsection{Exercise 4}
 Program a SOM to solve the traveling salesman problem (TSP):
 \begin{itemize}
