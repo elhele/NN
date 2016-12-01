@@ -83,7 +83,7 @@ where $k$ - index of winning neuron, $x$ - current input signal. Let's rewrite t
 \end{equation}
 
 Because $min$ function does not depend on $x$ and $w_k$ is normalized, we can omit some terms:
- 
+
 \begin{equation}
 \min\limits_k \parallel x-w_k \parallel^2 =\min\limits_k  - 2 w_k x^T + 1 = \min\limits_k  - 2 w_k x^T = \max\limits_k 2 w_k x^T = \max\limits_k w_k x^T.
 \end{equation}
@@ -108,6 +108,55 @@ Cluster S using a one dimensional SOM network with:
 
 Comment on the two clusterings you obtained using the two different weight initializations.
 
+\bigskip
+\newpage
+Solution to this problem is not deterministic. Due to fixed learning rate, neurons will react each time we input data. However, stop criterion is too weak and convergence can be achieved in 2 iteration. So, the neurons will oscillate around the initial weights.
+
+\begin{figure}[h]
+  \centering
+  \caption{Typical weight distribution with initialization $[0.15, 0.45]$.}
+  \includegraphics[scale = 0.7]{1}
+\end{figure}
+
+In the second case: $[0.3, 0.9]$, the first neuron will be always a winner, given this input space. And this neuron will oscillate oscillate around initial value.
+
+\begin{figure}[h]
+  \centering
+  \caption{Typical weight distribution with initialization $[0.3, 0.9]$.}
+  \includegraphics[scale = 0.7]{4}
+\end{figure}
+
+ \clearpage
+ If we strengthen the criterion $$\sum_{i=1}^2|w_i^{old} - w_i^{new}| < 0.001$$ random nature of the solution will be clearly seen.
+
+ \begin{figure}[h]
+  \centering
+  \caption{Typical weight distribution with initialization $[0.15, 0.45]$ and $\nu = 0.001$.}
+  \includegraphics[scale = 0.7]{2}
+\end{figure}
+We can partially avoid this oscillations by adding learning rate decay. For example, we can use this rule: $\nu(k) = nu_0 \exp^{-k/2}$.
+\begin{figure}[h]
+  \centering
+  \caption{Weight distribution with initialization $[0.15, 0.45]$ and $\nu$ decay.}
+  \includegraphics[scale = 0.7]{3}
+\end{figure}
+
+ \clearpage
+Finally, if we conduct multiple experiment with the same initial weights, mean value of weights will be the initial ones.
+
+\begin{figure}[h]
+  \centering
+  \caption{Mean of distribution with initialization $[0.15, 0.45]$ and $\nu$ decay.}
+  \includegraphics[scale = 0.7]{1mean}
+\end{figure}
+
+\begin{figure}[h]
+  \centering
+  \caption{Mean of distribution with initialization $[0.3, 0.9]$ and $\nu$ decay.}
+  \includegraphics[scale = 0.7]{2mean}
+\end{figure}
+
+\newpage 
 \subsection{Exercise 4}
 Program a SOM to solve the traveling salesman problem (TSP):
 \begin{itemize}
