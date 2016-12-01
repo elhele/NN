@@ -64,11 +64,31 @@
   \includegraphics[width=1.0\textwidth]{SOMs}
 \end{figure}
 
+\newpage
 \section{Exercises}
 
 \subsection{Exercise 2}
 Show that in the SOM algorithm the winner neuron for an input $x$ is the neuron $k$ whose weight vector $w_k$ maximizes the inner product $< w k ,x >$ of x and w k , with $x$ and $w_k$ normalized.
 
+
+The closest neuron will satisfy the following condition:
+
+\begin{equation}
+k(x) = arg \min\limits_k \parallel x-w_k \parallel^2,
+\end{equation}
+where $k$ - index of winning neuron, $x$ - current input signal. Let's rewrite this equation:
+
+\begin{equation}
+\min\limits_k \parallel x-w_k \parallel^2 = \min\limits_k (x-w_k)*(x^T-w_k^T) =  \min\limits_k x x^T-w_k x^T - x w_k^T + w_k w_k^T = \min\limits_k x x^T - 2  w_k x^T + w_k w_k^T.
+\end{equation}
+
+Because $min$ function does not depend on $x$ and $w_k$ is normalized, we can omit some terms:
+ 
+\begin{equation}
+\min\limits_k \parallel x-w_k \parallel^2 =\min\limits_k  - 2 w_k x^T + 1 = \min\limits_k  - 2 w_k x^T = \max\limits_k 2 w_k x^T = \max\limits_k w_k x^T.
+\end{equation}
+
+Thus, winner neuron maximizes inner product $<w_k,x>$.
 \subsection{Exercise 3}
 
 Consider the one dimensional input space S={0.1, 0.2, 0.4, 0.5}.
@@ -97,7 +117,7 @@ Program a SOM to solve the traveling salesman problem (TSP):
 \item The input patterns are the (x,y) coordinates of all target cities.
 \item When applying one concrete city pattern the winner is of course the neuron with lies closest to the given city. Only the weights of the winning neuron will be adapted according to the learning rule, no other neighboring weights are changed. This "moves" the neuron closer to "its" city.
 \item After some cycles there is just ONE neuron closest to each city. These build pairs (n(i),City(closest to n(i)).
-\item If we sort this pairs according to the number of the neurons "i" this will give a journey for the respective cities, which solves the TSP approximately. 
+\item If we sort this pairs according to the number of the neurons "i" this will give a journey for the respective cities, which solves the TSP approximately.
 \item Use tools like ICONNECT, TSPLIB or alike to do the programming, compare runtime, memory and achieved length of path.
 \end{itemize}
 
@@ -165,7 +185,7 @@ def plot(cities_coordinates, weights):
         ax.annotate(neuron_numbers[i], (weights[i,0],weights[i,1]))
     plt.plot(np.append(weights[:,0], weights[0,0]), np.append(weights[:,1], weights[0,1]))
     plt.show()
-    
+
 plot(cities_coordinates, weights)
 \end{lstlisting}
 
@@ -186,7 +206,7 @@ while(abs(summ) > 0.0001):
     summ = 0
     indices = np.array([])
     for city in cities_coordinates:
-        #Determine the winning neuron 
+        #Determine the winning neuron
         dists = np.array([])
         for weight in weights:
             dist = math.hypot(city[0]-weight[0], city[1]-weight[1])
@@ -238,7 +258,7 @@ length = 0
 for i in range(len(cities_names)):
     ax.annotate(cities_names[i], (cities_coordinates[i,0],cities_coordinates[i,1]))
     length += math.hypot(weights_assigned[i,0]-weights_assigned[i+1,0], weights_assigned[i,1]-weights_assigned[i+1,1])
-    
+
 plt.plot(weights_assigned[:,0], weights_assigned[:,1])
 plt.show()
 print length
