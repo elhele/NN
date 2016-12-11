@@ -1,0 +1,11 @@
+Q: What are reccurent neural networks?
+
+A: Recurrent neural networks are neural networks with one or more feedback loops.
+
+Q: Define a state of a dynamical system.
+
+A: State of a dynamical system - a set of quantities that summarizes all the information about the past behavior of the system that is needed to uniquely describe its future behavior, except for the purely external effects arising from the applied input (excitation).
+
+Q: When is the reccurent neural network controllable? When observable?
+
+A: A recurrent NN is controllable if an initial state is steerable to any desired state within a finite number of time steps; the output is irrelevant to this definition. The recurrent network is said to be observable if the state of the NN can be determined from a finite set of input/output measurements.
